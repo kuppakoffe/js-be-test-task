@@ -6,7 +6,14 @@ const app: express.Application = express();
 const port: Number = 3000;
 
 
-
+/**
+ * Adding a prometheus client middleware.
+ * It will help us in tracking things like API status codes,
+ * response time etc. The metrics will be exposed on the same port as the application
+ * on /metrics endpoint. We can configure prometheus to scrape the data and can connect
+ * grafana to plot basic visualizations about the api.
+ * 
+ */
 app.use(middleWare({
   metricsPath: '/metrics',
   collectDefaultMetrics: true,

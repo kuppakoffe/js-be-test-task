@@ -22,14 +22,22 @@ const findMatch = (haystack, needle = SESSION_UUID) => {
   return haystack.indexOf(needle) !== -1;
 }
 
-
+/**
+ * 
+ * @param sessionId : String  - a uuid format session id.
+ * @returns Session.
+ */
 export const getSessionDetails = async (sessionId: string) => {
   const url = `https://api.veriff.internal/sessions/${sessionId}`
   return await (await axios.get<Session>(url)).data
 }
 
 
-
+/**
+ * 
+ * @param sessionId : String - a uuid format session id.
+ * @returns MediaDetails.
+ */
 export const getMediaDetails = async (sessionId: string) => {
   const url = `https://api.veriff.internal/sessions/${sessionId}/media`
   const response = await (await axios.get<MediaDetail[]>(url))
@@ -38,7 +46,11 @@ export const getMediaDetails = async (sessionId: string) => {
 }
 
 
-
+/**
+ * 
+ * @param sessionId : String - a uuid format session id.
+ * @returns MediaContext
+ */
 export const getMediaContextDetails = async (sessionId: string) => {
   const url = `https://api.veriff.internal/media-context/${sessionId}`
   const response = await (await axios.get<MediaContext[]>(url))
@@ -56,6 +68,15 @@ export const getMediaContextDetails = async (sessionId: string) => {
 }
 
 
+/**
+ * 
+ * @param sessionId : String - a uuid format session id.
+ * Combines response of getMediaDetails method to get list of all relevent media with the response
+ * of getMediaContextDetails tp build the final response object.
+ * Since, things were not cleared in the question, an assumption has been made for probability value
+ * to figure out if the media belongs to document-front or document-back.
+ * @returns SessionDetails.
+ */
 export const getSessionWithMedia = async (sessionId: string) => {
   try {
     const sessionResponse = await getSessionDetails(sessionId);
